@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nova — Modern Landing Page</title>
+  <meta name="description" content="A clean, responsive, and fast single‑file HTML landing page with dark mode, animations, and accessible components." />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0f19;         /* dark base */
+      --surface: #0f1424;    /* dark elevated */
+      --text: #e6e9f2;       /* light text */
+      --muted: #a4acc4;      /* muted text */
+      --brand: #6c7cff;      /* indigo */
+      --brand-2: #22d3ee;    /* cyan */
+      --ring: rgba(108,124,255,.35);
+      --ok: #10b981;         /* green */
+      --warn: #f59e0b;       /* amber */
+      --danger: #ef4444;     /* red */
+      --shadow: 0 10px 30px rgba(0,0,0,.25);
+      --radius: 16px;
+      --radius-lg: 24px;
+      --maxw: 1200px;
+    }
+    @media (prefers-color-scheme: light) {
+      :root { --bg:#f8fafc; --surface:#ffffff; --text:#0b1220; --muted:#52607a; --shadow: 0 10px 30px rgba(14, 23, 38, .08);} }
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+      background: radial-gradient(1200px 800px at 80% -200px, rgba(108,124,255,.25), transparent 60%),
+                  radial-gradient(1000px 700px at -200px 20%, rgba(34,211,238,.22), transparent 60%),
+                  var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* Layout */
+    .container { max-width: var(--maxw); margin-inline: auto; padding: 0 20px; }
+    header { position: sticky; top: 0; z-index: 50; backdrop-filter: saturate(140%) blur(12px); background: color-mix(in oklab, var(--bg), transparent 25%); border-bottom: 1px solid color-mix(in oklab, var(--text), transparent 90%); }
+    .nav { display:flex; align-items:center; justify-content:space-between; padding: 14px 0; }
+    .logo { display:flex; align-items:center; gap:10px; font-weight: 800; letter-spacing:.3px; }
+    .logo .dot { width:12px; height:12px; border-radius:50%; background: linear-gradient(135deg, var(--brand), var(--brand-2)); box-shadow: 0 0 0 6px color-mix(in oklab, var(--brand), transparent 80%);}    
+    nav ul { display:flex; gap: 18px; list-style: none; margin:0; padding:0; }
+    nav a { text-decoration: none; color: var(--text); opacity:.8; font-weight: 500; }
+    nav a:hover { opacity: 1; }
+
+    .btn { display:inline-flex; align-items:center; gap:10px; padding: 12px 16px; background: linear-gradient(135deg, var(--brand), var(--brand-2)); color:#fff; border:0; border-radius: 12px; box-shadow: var(--shadow); cursor:pointer; font-weight: 600; text-decoration: none; }
+    .btn:focus-visible { outline: 3px solid var(--ring); outline-offset: 3px; }
+    .btn.secondary { background: transparent; color: var(--text); border:1px solid color-mix(in oklab, var(--text), transparent 85%); box-shadow:none; }
+
+    /* Hero */
+    .hero { display:grid; grid-template-columns: 1.1fr 0.9fr; gap: 36px; padding: 64px 0 40px; align-items:center; }
+    .hero h1 { font-size: clamp(2.2rem, 2vw + 2rem, 3.5rem); line-height: 1.1; margin: 0 0 16px; letter-spacing:-.5px; }
+    .sub { color: var(--muted); max-width: 58ch; margin: 0 0 22px; }
+    .pill { display:inline-flex; gap:8px; align-items:center; font-size: .85rem; padding:6px 10px; border-radius:999px; border:1px solid color-mix(in oklab, var(--text), transparent 88%); background: color-mix(in oklab, var(--surface), transparent 10%); }
+    .hero-card { background: linear-gradient(180deg, color-mix(in oklab, var(--surface), transparent 0%), color-mix(in oklab, var(--bg), transparent 10%)); border:1px solid color-mix(in oklab, var(--text), transparent 90%); border-radius: var(--radius-lg); padding: 22px; box-shadow: var(--shadow); position:relative; overflow:hidden; }
+    .grid-badges { display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:12px; }
+    .badge { background: color-mix(in oklab, var(--surface), transparent 0%); border:1px dashed color-mix(in oklab, var(--text), transparent 85%); border-radius: 12px; padding: 14px; font-size: .92rem; }
+
+    /* Sections */
+    section { padding: 56px 0; }
+    .section-title { font-size: 1.9rem; margin: 0 0 10px; }
+    .section-sub { color: var(--muted); margin-top: 0; }
+
+    /* Features */
+    .features { display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 18px; margin-top: 24px; }
+    .card { background: var(--surface); border:1px solid color-mix(in oklab, var(--text), transparent 90%); border-radius: var(--radius); padding: 22px; box-shadow: var(--shadow); }
+    .card h3 { margin: 10px 0 6px; font-size: 1.1rem; }
+    .icon { width:28px; height:28px; border-radius: 8px; display:grid; place-items:center; background: color-mix(in oklab, var(--brand), white 15%); }
+
+    /* Showcase */
+    .showcase { display:grid; grid-template-columns: 1fr 1fr; gap: 22px; align-items:center; }
+    .browser { background: var(--surface); border: 1px solid color-mix(in oklab, var(--text), transparent 90%); border-radius: 20px; box-shadow: var(--shadow); overflow:hidden; }
+    .browser .bar { display:flex; gap:6px; padding:10px; border-bottom: 1px solid color-mix(in oklab, var(--text), transparent 90%); background: linear-gradient(180deg, color-mix(in oklab, var(--surface), white 5%), var(--surface)); }
+    .dot { width:10px; height:10px; border-radius:50%; background: color-mix(in oklab, var(--text), transparent 70%); }
+    .browser .content { padding: 16px; min-height: 260px; display:grid; gap: 12px; }
+    .placeholder { height: 56px; border-radius: 12px; background: repeating-linear-gradient( 45deg, color-mix(in oklab, var(--text), transparent 92%), color-mix(in oklab, var(--text), transparent 92%) 10px, color-mix(in oklab, var(--text), transparent 86%) 10px, color-mix(in oklab, var(--text), transparent 86%) 20px ); }
+
+    /* Pricing */
+    .pricing { display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 18px; margin-top: 20px; }
+    .price { padding: 26px; border-radius: var(--radius); background: var(--surface); border:1px solid color-mix(in oklab, var(--text), transparent 90%); position:relative; }
+    .price .tag { position:absolute; top: 16px; right: 16px; font-size:.75rem; background: color-mix(in oklab, var(--brand-2), white 12%); color:#00131a; padding:4px 8px; border-radius:999px; font-weight:700; }
+    .price h3 { margin: 0; }
+    .price ul { margin: 14px 0 0; padding-left: 18px; color: var(--muted); }
+
+    /* Testimonials */
+    .testimonials { display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 18px; margin-top: 16px; }
+    .quote { padding:20px; background: var(--surface); border:1px solid color-mix(in oklab, var(--text), transparent 90%); border-radius: var(--radius); font-size:.98rem; }
+
+    /* FAQ */
+    details { background: var(--surface); border:1px solid color-mix(in oklab, var(--text), transparent 90%); border-radius: 12px; padding: 14px 16px; }
+    details + details { margin-top: 10px; }
+    summary { cursor: pointer; list-style: none; }
+    summary::-webkit-details-marker { display:none; }
+    summary b { font-weight: 600; }
+
+    /* Contact */
+    form { display:grid; gap:12px; max-width: 520px; }
+    input, textarea { width:100%; padding:12px 14px; border-radius: 12px; border:1px solid color-mix(in oklab, var(--text), transparent 85%); background: color-mix(in oklab, var(--surface), white 3%); color: var(--text); font: inherit; }
+    input:focus, textarea:focus { outline: 3px solid var(--ring); border-color: transparent; }
+
+    footer { margin-top: 40px; padding: 30px 0 60px; color: var(--muted); border-top: 1px solid color-mix(in oklab, var(--text), transparent 90%); }
+
+    /* Responsiveness */
+    @media (max-width: 1024px) { .hero { grid-template-columns: 1fr; } .showcase { grid-template-columns: 1fr; } }
+    @media (max-width: 860px) { .features, .pricing, .testimonials { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 560px) { nav ul { display:none; } .features, .pricing, .testimonials { grid-template-columns: 1fr; } .pill { font-size: .8rem; } }
+
+    /* Tiny animations */
+    .fade-up { opacity:0; transform: translateY(14px); transition: .6s ease; }
+    .fade-up.show { opacity:1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <div class="logo" aria-label="Nova logo">
+        <span class="dot"></span>
+        <span>Nova</span>
+      </div>
+      <nav aria-label="Primary">
+        <ul>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <a class="btn" href="#get-started" aria-label="Get started">Get Started
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section class="container hero fade-up">
+      <div>
+        <span class="pill" role="status" aria-live="polite">✨ New: Lightning‑fast setup</span>
+        <h1>Build beautiful sites <br/>in minutes, not months.</h1>
+        <p class="sub">Nova is a sleek, responsive starter you can drop into any project. It ships with dark mode, a11y‑first components, simple animations, and clean code you’ll actually want to maintain.</p>
+        <div style="display:flex; gap:12px; flex-wrap:wrap;">
+          <a href="#features" class="btn">Explore features</a>
+          <a href="#pricing" class="btn secondary">See pricing</a>
+        </div>
+      </div>
+      <aside class="hero-card" aria-label="Highlights">
+        <div class="grid-badges">
+          <div class="badge">✅ No build tools required</div>
+          <div class="badge">🎨 Dark mode by default</div>
+          <div class="badge">⚡ Fast, 100% Lighthouse</div>
+          <div class="badge">🔒 Accessible & semantic</div>
+        </div>
+        <svg width="280" height="120" viewBox="0 0 280 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="position:absolute; right:-20px; bottom:-10px; opacity:.25">
+          <defs>
+            <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="var(--brand)"/>
+              <stop offset="100%" stop-color="var(--brand-2)"/>
+            </linearGradient>
+          </defs>
+          <path d="M10 90 C 60 40, 120 140, 170 80 S 260 40, 270 90" stroke="url(#g)" stroke-width="8" fill="none" stroke-linecap="round"/>
+        </svg>
+      </aside>
+    </section>
+
+    <!-- Features -->
+    <section id="features" class="container fade-up">
+      <h2 class="section-title">Everything you need to launch</h2>
+      <p class="section-sub">Hand‑picked components so you can focus on your product, not boilerplate.</p>
+      <div class="features">
+        <div class="card">
+          <div class="icon">💡</div>
+          <h3>Clean, semantic HTML</h3>
+          <p>SEO‑friendly structure with ARIA where it matters. Copy, paste, ship.</p>
+        </div>
+        <div class="card">
+          <div class="icon">📱</div>
+          <h3>Responsive by design</h3>
+          <p>Looks great on any screen with a fluid grid and modern CSS.</p>
+        </div>
+        <div class="card">
+          <div class="icon">🌙</div>
+          <h3>Dark mode ready</h3>
+          <p>Automatic color‑scheme support with tasteful contrasts.</p>
+        </div>
+        <div class="card">
+          <div class="icon">⚙️</div>
+          <h3>Tiny JS, big UX</h3>
+          <p>Progressive enhancements, accessible toggles, and subtle motion.</p>
+        </div>
+        <div class="card">
+          <div class="icon">🧩</div>
+          <h3>Composable blocks</h3>
+          <p>Hero, features, pricing, testimonials, FAQ, and contact included.</p>
+        </div>
+        <div class="card">
+          <div class="icon">🚀</div>
+          <h3>Production‑ready</h3>
+          <p>Lint‑friendly CSS, minimal dependencies, and great performance.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Showcase -->
+    <section class="container showcase fade-up" aria-label="Product preview">
+      <div class="browser" role="img" aria-label="UI preview mockup">
+        <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+        <div class="content">
+          <div class="placeholder"></div>
+          <div class="placeholder" style="width: 76%;"></div>
+          <div class="placeholder" style="width: 48%;"></div>
+        </div>
+      </div>
+      <div>
+        <h2 class="section-title">Show your product, beautifully</h2>
+        <p class="section-sub">Drop in screenshots or swap the mockup with a real iframe. The frame supports any content you like.</p>
+        <ul>
+          <li>✅ Keyboard‑navigable components</li>
+          <li>✅ Focus rings for accessibility</li>
+          <li>✅ Prefers‑reduced‑motion respected</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="pricing" class="container fade-up">
+      <h2 class="section-title">Simple pricing</h2>
+      <p class="section-sub">Start free, scale when you do. No hidden fees.</p>
+      <div class="pricing">
+        <article class="price">
+          <h3>Hobby</h3>
+          <p><strong>$0</strong> / forever</p>
+          <ul>
+            <li>1 project</li>
+            <li>Community support</li>
+            <li>Basic components</li>
+          </ul>
+          <p><a class="btn" href="#get-started">Get started</a></p>
+        </article>
+        <article class="price" style="transform: scale(1.02); outline: 3px solid color-mix(in oklab, var(--brand), transparent 70%);">
+          <span class="tag">Popular</span>
+          <h3>Pro</h3>
+          <p><strong>$12</strong> / month</p>
+          <ul>
+            <li>Unlimited projects</li>
+            <li>Email support</li>
+            <li>All components</li>
+          </ul>
+          <p><a class="btn" href="#get-started">Upgrade</a></p>
+        </article>
+        <article class="price">
+          <h3>Team</h3>
+          <p><strong>$29</strong> / seat</p>
+          <ul>
+            <li>Roles & permissions</li>
+            <li>Priority support</li>
+            <li>Custom blocks</li>
+          </ul>
+          <p><a class="btn secondary" href="#contact">Contact sales</a></p>
+        </article>
+      </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="container fade-up" aria-label="What customers say">
+      <h2 class="section-title">Loved by builders</h2>
+      <p class="section-sub">Real feedback from folks who shipped faster with Nova.</p>
+      <div class="testimonials">
+        <blockquote class="quote">“I replaced a bloated template with Nova and cut our homepage weight by 70%. Instant win.” — Priya, PM</blockquote>
+        <blockquote class="quote">“Cleanest starter I’ve seen in years. The code is readable and accessible by default.” — Arun, Dev</blockquote>
+        <blockquote class="quote">“Dark mode looks 🔥 out of the box. Our users noticed.” — Sahana, Founder</blockquote>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="container fade-up" aria-label="Frequently asked questions">
+      <h2 class="section-title">FAQ</h2>
+      <details>
+        <summary><b>Can I use this commercially?</b></summary>
+        <p>Yes. Customize and deploy it for client or internal projects. Attribution appreciated but not required.</p>
+      </details>
+      <details>
+        <summary><b>Does it support dark mode?</b></summary>
+        <p>Yes—colors adapt automatically to the user’s system preference. You can also add a manual toggle.</p>
+      </details>
+      <details>
+        <summary><b>How do I deploy?</b></summary>
+        <p>Host the file on any static host (Netlify, Vercel, S3, GitHub Pages) or integrate into your framework.</p>
+      </details>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="container fade-up" aria-label="Contact form">
+      <h2 class="section-title">Contact us</h2>
+      <p class="section-sub">Have a question or want a custom build? Send a message.</p>
+      <form onsubmit="event.preventDefault(); alert('Thanks! We\'ll get back to you shortly.');">
+        <label>
+          <span class="sr">Name</span>
+          <input type="text" name="name" placeholder="Your name" required />
+        </label>
+        <label>
+          <span class="sr">Email</span>
+          <input type="email" name="email" placeholder="you@example.com" required />
+        </label>
+        <label>
+          <span class="sr">Message</span>
+          <textarea name="message" rows="4" placeholder="How can we help?" required></textarea>
+        </label>
+        <button class="btn" type="submit">Send message</button>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container" style="display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap;">
+      <div class="logo"><span class="dot"></span><span>Nova</span></div>
+      <div>© <span id="year"></span> Nova. All rights reserved.</div>
+    </div>
+  </footer>
+
+  <script>
+    // Reduce motion preference
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // IntersectionObserver to animate .fade-up elements
+    if (!prefersReduced && 'IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('show'); io.unobserve(e.target);} });
+      }, { threshold: 0.12 });
+      document.querySelectorAll('.fade-up').forEach(el=> io.observe(el));
+    } else {
+      document.querySelectorAll('.fade-up').forEach(el=> el.classList.add('show'));
+    }
+
+    // Current year
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+
+  <!-- Accessible screen-reader only class -->
+  <style>
+    .sr { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0; }
+  </style>
+</body>
+</html>
