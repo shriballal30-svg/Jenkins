@@ -1,0 +1,8 @@
+version: "3.8"
+services:
+  web:
+    image: notes-app:latest
+    build: .
+    ports:
+      - "8080:80"
+    restart: always
