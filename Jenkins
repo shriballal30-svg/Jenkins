@@ -1,1 +1,45 @@
+@Library("shared") _
+pipeline {
+    agent {label "shri"}
+    stages {
+        stage('hello'){
+            steps{
+                script{
+                    hello()
+                }
+            }
+            
+        }
+        
+        stage('clone') {
+            steps {
+                script{
+                    clone("https://github.com/shriballal30-svg/jenkins.git","main")
+                }
+            }
+        }
+        stage('build') {
+            steps {
+                script{
+                    docker_build("notes-app","latest")
+                }
+                
+            }
+        }
+        stage('test') {
+            steps {
+                script{
+                    test()
+                }
+            }
+        }
+        stage('deploy') {
+            steps {
+                echo 'this is deplouying the project'
+                sh "docker compose up -d"
+                echo 'the deploymrnt of projrct is successfully'
+            }
+        }
+    }
+}
 
